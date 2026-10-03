@@ -678,6 +678,11 @@
 
         let userData = await window.BF.getUserProfile();
 
+        /* No profile yet -> go to profile setup */
+        if (!userData) {
+            window.location.href = "profile.html";
+        }
+
 
         /* IF USER DATA EXISTS */
 
