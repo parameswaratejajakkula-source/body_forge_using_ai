@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Body Analyzer - Body Force AI</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #07100c;
+            color: white;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            height: 70px;
+            background: #0b1711;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            border-bottom: 1px solid #1e3b29;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #63d644;
+        }
+
+        .back-btn {
+            background: transparent;
+            color: white;
+            border: 1px solid #63d644;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: #63d644;
+            color: #07100c;
+        }
+
+        /* MAIN */
+
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 240px;
+            background: #0b1711;
+            padding: 30px 15px;
+            border-right: 1px solid #1e3b29;
+        }
+
+        .sidebar h3 {
+            color: #8e9c92;
+            margin-bottom: 20px;
+            padding-left: 15px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 14px 15px;
+            color: #c4d1c7;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #183d23;
+            color: #63d644;
+        }
+
+        /* CONTENT */
+
+        .content {
+            flex: 1;
+            padding: 40px;
+            max-width: 1000px;
+        }
+
+        .content h1 {
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: #aab8ae;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* UPLOAD CARD */
+
+        .analyzer-card {
+            background: #0e1d15;
+            border: 1px solid #1e3b29;
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .upload-box {
+            border: 2px dashed #2a4935;
+            min-height: 300px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            overflow: hidden;
+        }
+
+        .upload-box:hover {
+            border-color: #63d644;
+            background: #0b1711;
+        }
+
+        .upload-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .upload-box h2 {
+            margin-bottom: 10px;
+        }
+
+        .upload-box p {
+            color: #8e9c92;
+        }
+
+        /* IMAGE PREVIEW */
+
+        #imagePreview {
+            display: none;
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        /* FILE INPUT */
+
+        #imageInput {
+            display: none;
+        }
+
+        /* BUTTON */
+
+        .analyze-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            background: #63d644;
+            color: #07100c;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .analyze-btn:hover {
+            background: #7bea5b;
+        }
+
+        .analyze-btn:disabled {
+            background: #395043;
+            color: #8e9c92;
+            cursor: not-allowed;
+        }
+
+        /* INFO */
+
+        .info-box {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #09140e;
+            border: 1px solid #1e3b29;
+        }
+
+        .info-box h3 {
+            color: #63d644;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            color: #aab8ae;
+            padding-left: 20px;
+            line-height: 1.8;
+        }
+
+        /* LOADING */
+
+        #loading {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #1e3b29;
+            border-top: 5px solid #63d644;
+            border-radius: 50%;
+            margin: auto;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+
+            100% {
+                transform: rotate(360deg);
+            }
+
+        }
+
+        #loading p {
+            margin-top: 15px;
+            color: #63d644;
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 700px) {
+
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .sidebar h3 {
+                display: none;
+            }
+
+            .menu {
+                display: flex;
+                overflow-x: auto;
+                gap: 5px;
+            }
+
+            .menu a {
+                white-space: nowrap;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+            💪 BODY FORCE <span>AI</span>
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="goBack()"
+        >
+            ← Dashboard
+        </button>
+
+    </nav>
+
+
+
+    <div class="main-container">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <h3>MENU</h3>
+
+
+            <div class="menu">
+
+
+                <a href="profile.html">
+                    👤 Profile
+                </a>
+
+
+                <a href="dashboard.html">
+                    📊 Dashboard
+                </a>
+
+
+                <a
+                    href="analyzer.html"
+                    class="active"
+                >
+                    🧠 Body Analyzer
+                </a>
+
+
+                <a href="#">
+                    💪 Workout Plan
+                </a>
+
+
+                <a href="#">
+                    🥗 Diet Plan
+                </a>
+
+
+                <a href="#">
+                    📈 Progress Tracker
+                </a>
+
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- CONTENT -->
+
+        <main class="content">
+
+
+            <h1>
+                🧠 AI Body Analyzer
+            </h1>
+
+
+            <p class="description">
+
+                Upload a clear full-body photo and let
+                Body Force AI analyze your physique and
+                provide personalized fitness insights.
+
+            </p>
+
+
+
+            <div class="analyzer-card">
+
+
+                <!-- UPLOAD AREA -->
+
+                <label
+                    for="imageInput"
+                    class="upload-box"
+                    id="uploadBox"
+                >
+
+
+                    <div id="uploadContent">
+
+                        <div class="upload-icon">
+                            📸
+                        </div>
+
+
+                        <h2>
+                            Upload Your Body Photo
+                        </h2>
+
+
+                        <p>
+                            Click here to select an image
+                        </p>
+
+                    </div>
+
+
+                    <img
+                        id="imagePreview"
+                        alt="Body Preview"
+                    >
+
+
+                </label>
+
+
+
+                <!-- FILE INPUT -->
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                >
+
+
+
+                <!-- ANALYZE BUTTON -->
+
+                <button
+                    class="analyze-btn"
+                    id="analyzeBtn"
+                    onclick="analyzeBody()"
+                    disabled
+                >
+
+                    🧠 Analyze My Body
+
+                </button>
+
+
+
+                <!-- LOADING -->
+
+                <div id="loading">
+
+
+                    <div class="spinner"></div>
+
+
+                    <p>
+                        AI is analyzing your body...
+                    </p>
+
+
+                </div>
+
+
+
+                <!-- INFO BOX -->
+
+                <div class="info-box">
+
+                    <h3>
+                        📋 For Best Results
+                    </h3>
+
+
+                    <ul>
+
+                        <li>Upload a clear full-body photo</li>
+
+                        <li>Use good lighting</li>
+
+                        <li>Stand straight facing the camera</li>
+
+                        <li>Wear appropriate fitness clothing</li>
+
+                    </ul>
+
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script type="module">
+        import "./bf-db.js";
+
+
+
+        let uploadedImage = null;
+
+
+        /* IMAGE UPLOAD */
+
+        document
+            .getElementById("imageInput")
+            .addEventListener(
+                "change",
+                function(event) {
+
+
+                    const file =
+                        event.target.files[0];
+
+
+                    if (file) {
+
+
+                        const reader =
+                            new FileReader();
+
+
+                        reader.onload =
+                            function(e) {
+
+
+                                const preview =
+                                    document.getElementById(
+                                        "imagePreview"
+                                    );
+
+
+                                preview.src =
+                                    e.target.result;
+
+
+                                preview.style.display =
+                                    "block";
+
+
+                                document.getElementById(
+                                    "uploadContent"
+                                ).style.display =
+                                    "none";
+
+
+                                document.getElementById(
+                                    "analyzeBtn"
+                                ).disabled =
+                                    false;
+
+
+                                uploadedImage =
+                                    e.target.result;
+
+
+                            };
+
+
+                        reader.readAsDataURL(file);
+
+
+                    }
+
+
+                }
+            );
+
+
+
+        /* ANALYZE BODY */
+
+        function analyzeBody() {
+
+
+            if (!uploadedImage) {
+
+
+                alert(
+                    "Please upload a body photo first!"
+                );
+
+
+                return;
+
+            }
+
+
+
+            /* Hide upload card */
+
+            document.getElementById(
+                "loading"
+            ).style.display =
+                "block";
+
+
+            document.getElementById(
+                "analyzeBtn"
+            ).style.display =
+                "none";
+
+
+
+            /* DEMO AI ANALYSIS */
+
+            setTimeout(async function() {
+
+
+                /* Save image and analysis metadata in this browser */
+                localStorage.setItem("bodyImage", uploadedImage);
+                await window.BF.saveAnalysis({
+                    analyzedAt: new Date().toISOString(),
+                    imageAvailable: true
+                });
+
+
+                /* Go to result page */
+
+                window.location.href =
+                    "result.html";
+
+
+            }, 2500);
+
+
+        }
+
+
+
+        /* GO BACK */
+
+        function goBack() {
+
+            window.location.href =
+                "dashboard.html";
+
+        }
+
+
+    
+        window.analyzeBody = analyzeBody;
+        window.goBack = goBack;
+</script>
+
+
+</body>
+
+</html>
