@@ -307,11 +307,12 @@
     <script>
 
     function getStarted() {
-        window.location.href = "login.html";
-    }
-
-    function login() {
-        window.location.href = "login.html";
+        // No login: dashboard if a profile exists, otherwise profile setup
+        if (localStorage.getItem("bodyForceUser")) {
+            window.location.href = "dashboard.html";
+        } else {
+            window.location.href = "profile.html";
+        }
     }
 
     function learnMore() {
