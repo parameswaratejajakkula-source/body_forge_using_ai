@@ -296,9 +296,7 @@
 
 
         /* GET USER DATA */
-        const userData = JSON.parse(
-            localStorage.getItem("bodyForceUser")
-        );
+        const userData = await window.BF.getUserProfile();
 
         let goal = "Body Transformation";
 
@@ -657,5 +655,5 @@
 </script>
 
 </body>
-
+</html>
 </html>
