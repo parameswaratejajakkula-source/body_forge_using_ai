@@ -1,0 +1,1038 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>AI Assistant - Body Force AI</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            background: #07100c;
+            color: white;
+            min-height: 100vh;
+        }
+
+
+        /* NAVBAR */
+
+        nav {
+
+            height: 70px;
+
+            background: #0b1711;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 5%;
+
+            border-bottom: 1px solid #1e3b29;
+
+        }
+
+
+        .logo {
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+        }
+
+
+        .logo span {
+
+            color: #63d644;
+
+        }
+
+
+        .back-btn {
+
+            background: transparent;
+
+            color: white;
+
+            border: 1px solid #63d644;
+
+            padding: 10px 18px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+        }
+
+
+        .back-btn:hover {
+
+            background: #63d644;
+
+            color: #07100c;
+
+        }
+
+
+        /* MAIN */
+
+        .container {
+
+            max-width: 900px;
+
+            margin: auto;
+
+            padding: 40px 20px;
+
+        }
+
+
+        .title {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .title h1 {
+
+            font-size: 34px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .title h1 span {
+
+            color: #63d644;
+
+        }
+
+
+        .title p {
+
+            color: #9eaea3;
+
+        }
+
+
+        /* CHAT BOX */
+
+        .chat-container {
+
+            background: #0e1d15;
+
+            border: 1px solid #1e3b29;
+
+            border-radius: 15px;
+
+            overflow: hidden;
+
+        }
+
+
+        .chat-header {
+
+            padding: 18px 22px;
+
+            background: #102219;
+
+            border-bottom: 1px solid #1e3b29;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        .ai-icon {
+
+            width: 45px;
+
+            height: 45px;
+
+            border-radius: 50%;
+
+            background: #63d644;
+
+            color: #07100c;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 23px;
+
+        }
+
+
+        .chat-header h3 {
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .online {
+
+            color: #63d644;
+
+            font-size: 13px;
+
+        }
+
+
+        /* MESSAGES */
+
+        .messages {
+
+            height: 450px;
+
+            overflow-y: auto;
+
+            padding: 20px;
+
+        }
+
+
+        .message {
+
+            display: flex;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .message.ai {
+
+            justify-content: flex-start;
+
+        }
+
+
+        .message.user {
+
+            justify-content: flex-end;
+
+        }
+
+
+        .bubble {
+
+            max-width: 75%;
+
+            padding: 13px 16px;
+
+            border-radius: 12px;
+
+            line-height: 1.5;
+
+        }
+
+
+        .ai .bubble {
+
+            background: #15271b;
+
+            border: 1px solid #25452f;
+
+            color: #d7e2da;
+
+        }
+
+
+        .user .bubble {
+
+            background: #63d644;
+
+            color: #07100c;
+
+            font-weight: 500;
+
+        }
+
+
+        /* QUICK QUESTIONS */
+
+        .quick {
+
+            padding: 15px 20px;
+
+            border-top: 1px solid #1e3b29;
+
+        }
+
+
+        .quick p {
+
+            color: #9eaea3;
+
+            font-size: 13px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .quick-buttons {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+        }
+
+
+        .quick-btn {
+
+            background: #09140e;
+
+            color: #c4d1c7;
+
+            border: 1px solid #2a4935;
+
+            padding: 8px 12px;
+
+            border-radius: 20px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+        }
+
+
+        .quick-btn:hover {
+
+            border-color: #63d644;
+
+            color: #63d644;
+
+        }
+
+
+        /* INPUT */
+
+        .input-area {
+
+            padding: 15px 20px;
+
+            border-top: 1px solid #1e3b29;
+
+            display: flex;
+
+            gap: 10px;
+
+        }
+
+
+        .input-area input {
+
+            flex: 1;
+
+            background: #09140e;
+
+            color: white;
+
+            border: 1px solid #2a4935;
+
+            border-radius: 8px;
+
+            padding: 14px;
+
+            outline: none;
+
+            font-size: 15px;
+
+        }
+
+
+        .input-area input:focus {
+
+            border-color: #63d644;
+
+        }
+
+
+        .send-btn {
+
+            background: #63d644;
+
+            color: #07100c;
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 0 22px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .send-btn:hover {
+
+            background: #7bea5b;
+
+        }
+
+
+        /* DISCLAIMER */
+
+        .disclaimer {
+
+            text-align: center;
+
+            color: #718078;
+
+            font-size: 12px;
+
+            margin-top: 15px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* MOBILE */
+
+        @media(max-width: 600px) {
+
+            .title h1 {
+
+                font-size: 27px;
+
+            }
+
+
+            .messages {
+
+                height: 400px;
+
+            }
+
+
+            .input-area {
+
+                padding: 12px;
+
+            }
+
+
+            .send-btn {
+
+                padding: 0 15px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+
+            💪 BODY FORCE <span>AI</span>
+
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="goDashboard()">
+
+            ← Dashboard
+
+        </button>
+
+    </nav>
+
+
+
+    <!-- MAIN -->
+
+    <main class="container">
+
+
+        <div class="title">
+
+            <h1>
+                🤖 BodyForce <span>AI Assistant</span>
+            </h1>
+
+            <p>
+                Ask me anything about your fitness journey.
+            </p>
+
+        </div>
+
+
+
+        <!-- CHAT -->
+
+        <div class="chat-container">
+
+
+            <!-- HEADER -->
+
+            <div class="chat-header">
+
+                <div class="ai-icon">
+                    🤖
+                </div>
+
+                <div>
+
+                    <h3>
+                        BodyForce AI
+                    </h3>
+
+                    <div class="online">
+                        ● Online
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MESSAGES -->
+
+            <div
+                class="messages"
+                id="messages">
+
+
+                <div class="message ai">
+
+                    <div class="bubble">
+
+                        👋 Hi! I'm your
+                        <strong>BodyForce AI</strong>
+                        assistant.
+
+                        <br><br>
+
+                        I can help you with:
+
+                        <br>
+
+                        💪 Workouts<br>
+                        🥗 Nutrition<br>
+                        📈 Progress<br>
+                        🏃 Fitness tips
+
+                        <br><br>
+
+                        What would you like to know?
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- QUICK QUESTIONS -->
+
+            <div class="quick">
+
+                <p>
+                    Quick questions:
+                </p>
+
+
+                <div class="quick-buttons">
+
+                    <button
+                        class="quick-btn"
+                        onclick="quickQuestion('How many days should I workout?')">
+
+                        💪 Workout frequency
+
+                    </button>
+
+
+                    <button
+                        class="quick-btn"
+                        onclick="quickQuestion('What should I eat for muscle gain?')">
+
+                        🥗 Muscle gain diet
+
+                    </button>
+
+
+                    <button
+                        class="quick-btn"
+                        onclick="quickQuestion('How can I lose weight?')">
+
+                        🔥 Weight loss
+
+                    </button>
+
+
+                    <button
+                        class="quick-btn"
+                        onclick="quickQuestion('How much water should I drink?')">
+
+                        💧 Water intake
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- INPUT -->
+
+            <div class="input-area">
+
+                <input
+                    type="text"
+                    id="userInput"
+                    placeholder="Ask BodyForce AI..."
+                    onkeydown="handleEnter(event)"
+                >
+
+
+                <button
+                    class="send-btn"
+                    onclick="sendMessage()">
+
+                    Send
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="disclaimer">
+
+            BodyForce AI provides general fitness information.
+            It is not a substitute for professional medical advice.
+
+        </div>
+
+
+    </main>
+
+
+
+    <script>
+
+
+        /* SEND MESSAGE */
+
+        function sendMessage() {
+
+            const input =
+                document.getElementById(
+                    "userInput"
+                );
+
+
+            const text =
+                input.value.trim();
+
+
+            if (text === "") {
+
+                return;
+
+            }
+
+
+            addMessage(
+                text,
+                "user"
+            );
+
+
+            input.value = "";
+
+
+            setTimeout(
+                function() {
+
+                    const response =
+                        getAIResponse(text);
+
+                    addMessage(
+                        response,
+                        "ai"
+                    );
+
+                },
+                600
+            );
+
+        }
+
+
+
+        /* ADD MESSAGE */
+
+        function addMessage(
+            text,
+            type
+        ) {
+
+
+            const messages =
+                document.getElementById(
+                    "messages"
+                );
+
+
+            const message =
+                document.createElement(
+                    "div"
+                );
+
+
+            message.className =
+                "message " + type;
+
+
+            const bubble =
+                document.createElement(
+                    "div"
+                );
+
+
+            bubble.className =
+                "bubble";
+
+
+            bubble.innerHTML =
+                text;
+
+
+            message.appendChild(
+                bubble
+            );
+
+
+            messages.appendChild(
+                message
+            );
+
+
+            messages.scrollTop =
+                messages.scrollHeight;
+
+        }
+
+
+
+        /* QUICK QUESTION */
+
+        function quickQuestion(
+            question
+        ) {
+
+            document.getElementById(
+                "userInput"
+            ).value =
+                question;
+
+
+            sendMessage();
+
+        }
+
+
+
+        /* ENTER KEY */
+
+        function handleEnter(
+            event
+        ) {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                sendMessage();
+
+            }
+
+        }
+
+
+
+        /* DEMO AI RESPONSES */
+
+        function getAIResponse(
+            question
+        ) {
+
+
+            const q =
+                question.toLowerCase();
+
+
+
+            if (
+                q.includes("workout") ||
+                q.includes("exercise") ||
+                q.includes("frequency")
+            ) {
+
+                return `
+
+                    💪 For general fitness,
+                    many people start with
+                    <strong>3–4 workout days per week</strong>.
+
+                    <br><br>
+
+                    Give your muscles enough
+                    recovery time and gradually
+                    increase the difficulty.
+
+                `;
+
+            }
+
+
+
+            if (
+                q.includes("muscle") &&
+                (
+                    q.includes("diet") ||
+                    q.includes("eat") ||
+                    q.includes("food")
+                )
+            ) {
+
+                return `
+
+                    🥗 For muscle gain, focus on
+                    enough total calories and
+                    protein.
+
+                    <br><br>
+
+                    Good options include:
+
+                    <br>
+
+                    🥚 Eggs<br>
+                    🥛 Milk / Yogurt<br>
+                    🫘 Dal / Beans<br>
+                    🧀 Paneer<br>
+                    🐟 Fish / Chicken<br>
+                    🌾 Oats
+
+                    <br><br>
+
+                    Your exact nutrition needs
+                    depend on your body and goals.
+
+                `;
+
+            }
+
+
+
+            if (
+                q.includes("weight") &&
+                (
+                    q.includes("lose") ||
+                    q.includes("loss")
+                )
+            ) {
+
+                return `
+
+                    🔥 For healthy weight loss,
+                    combine regular physical
+                    activity with a sustainable,
+                    balanced diet.
+
+                    <br><br>
+
+                    Focus on:
+
+                    <br>
+
+                    🥗 Vegetables<br>
+                    🍎 Fruits<br>
+                    💪 Protein-rich foods<br>
+                    🚶 Regular activity<br>
+                    😴 Good sleep
+
+                    <br><br>
+
+                    Avoid extreme diets or
+                    very rapid weight-loss goals.
+
+                `;
+
+            }
+
+
+
+            if (
+                q.includes("water") ||
+                q.includes("drink")
+            ) {
+
+                return `
+
+                    💧 Hydration needs vary based
+                    on body size, activity,
+                    climate and diet.
+
+                    <br><br>
+
+                    Drink regularly throughout
+                    the day and more when you're
+                    exercising or sweating heavily.
+
+                `;
+
+            }
+
+
+
+            if (
+                q.includes("protein")
+            ) {
+
+                return `
+
+                    💪 Protein is important for
+                    muscle repair and growth.
+
+                    <br><br>
+
+                    Common sources include
+                    eggs, dairy, fish, chicken,
+                    soy, beans, lentils and paneer.
+
+                `;
+
+            }
+
+
+
+            if (
+                q.includes("sleep") ||
+                q.includes("rest")
+            ) {
+
+                return `
+
+                    😴 Recovery is an important
+                    part of fitness.
+
+                    <br><br>
+
+                    Try to maintain a consistent
+                    sleep schedule and give
+                    heavily trained muscles
+                    enough recovery time.
+
+                `;
+
+            }
+
+
+
+            /* DEFAULT RESPONSE */
+
+            return `
+
+                🤖 That's a great question!
+
+                <br><br>
+
+                I can currently help with:
+
+                <br>
+
+                💪 Workouts<br>
+                🥗 Nutrition<br>
+                🔥 Weight loss<br>
+                💧 Hydration<br>
+                😴 Recovery<br>
+                💪 Protein
+
+                <br><br>
+
+                Try asking me one of these topics!
+
+            `;
+
+        }
+
+
+
+        /* DASHBOARD */
+
+        function goDashboard() {
+
+            window.location.href =
+                "dashboard.html";
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
+```
