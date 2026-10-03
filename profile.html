@@ -21,7 +21,8 @@
         }
 
         /* NAVBAR */
-nav {
+
+        nav {
             height: 70px;
             background: #0b1711;
             display: flex;
@@ -140,7 +141,10 @@ nav {
             margin: 0;
             font-size: 14px;
         }
-.form-title {
+
+        /* FORM */
+
+        .form-title {
             color: #63d644;
             margin-bottom: 20px;
         }
@@ -273,10 +277,6 @@ nav {
         <div class="logo">
             💪 BODY FORGE <span>AI</span>
         </div>
-
-        <button class="logout-btn" onclick="logout()">
-            Logout
-        </button>
     </nav>
 
 
@@ -504,7 +504,9 @@ nav {
                                 >
                                     Strength Gain
                                 </button>
-<button
+
+
+                                <button
                                     type="button"
                                     class="goal-btn"
                                     onclick="selectGoal(this, 'Body Transformation')"
@@ -578,15 +580,13 @@ nav {
             };
             try {
                 await window.BF.saveUserProfile(userData);
-                alert("Profile saved successfully!");
+                alert("Profile saved to database successfully!");
                 window.location.href = "dashboard.html";
             } catch (error) {
                 alert(error.message || "Could not save profile.");
             }
         });
 
-        function logout() { window.BF.logout(); }
-        window.logout = logout;
         loadProfile();
     </script>
 
