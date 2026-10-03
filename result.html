@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Analysis Result - Body Forge AI</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #07100c;
+            color: white;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            height: 70px;
+            background: #0b1711;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            border-bottom: 1px solid #1e3b29;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #63d644;
+        }
+
+        .dashboard-btn {
+            background: transparent;
+            color: white;
+            border: 1px solid #63d644;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .dashboard-btn:hover {
+            background: #63d644;
+            color: #07100c;
+        }
+
+        /* MAIN */
+
+        .content {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title h1 {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .page-title p {
+            color: #aab8ae;
+        }
+
+        /* TOP SECTION */
+
+        .top-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: #0e1d15;
+            border: 1px solid #1e3b29;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            color: #63d644;
+        }
+
+        /* IMAGE */
+
+        .image-container {
+            width: 100%;
+            min-height: 400px;
+            background: #09140e;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #resultImage {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            display: none;
+        }
+
+        .no-image {
+            text-align: center;
+            color: #8e9c92;
+            font-size: 18px;
+        }
+
+        /* ANALYSIS BOXES */
+
+        .analysis-item {
+            background: #09140e;
+            border: 1px solid #1e3b29;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .analysis-item h3 {
+            font-size: 14px;
+            color: #9eaea3;
+            margin-bottom: 8px;
+        }
+
+        .analysis-item p {
+            font-size: 20px;
+            color: #63d644;
+            font-weight: bold;
+        }
+
+        /* SCORES */
+
+        .scores-card {
+            margin-bottom: 25px;
+        }
+
+        .score-item {
+            margin-bottom: 25px;
+        }
+
+        .score-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .score-header span:last-child {
+            color: #63d644;
+            font-weight: bold;
+        }
+
+        .progress-bg {
+            width: 100%;
+            height: 12px;
+            background: #09140e;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #63d644;
+            border-radius: 20px;
+        }
+
+        .muscle {
+            width: 80%;
+        }
+
+        .balance {
+            width: 70%;
+        }
+
+        .fitness {
+            width: 78%;
+        }
+
+        .strength {
+            width: 65%;
+        }
+
+        /* RECOMMENDATIONS */
+
+        .recommendation-list {
+            list-style: none;
+        }
+
+        .recommendation-list li {
+            background: #09140e;
+            border-left: 3px solid #63d644;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 5px;
+            color: #c4d1c7;
+        }
+
+        /* BUTTONS */
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 18px;
+            border-radius: 10px;
+            background: #63d644;
+            color: #07100c;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background: #7bea5b;
+        }
+
+        .secondary-btn {
+            background: transparent;
+            color: #63d644;
+            border: 1px solid #63d644;
+        }
+
+        .secondary-btn:hover {
+            color: #07100c;
+            background: #63d644;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+
+            .top-section {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title h1 {
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+            💪 BODY FORGE <span>AI</span>
+        </div>
+
+        <button
+            class="dashboard-btn"
+            onclick="goDashboard()"
+        >
+            ← Dashboard
+        </button>
+
+    </nav>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="content">
+
+
+        <div class="page-title">
+
+            <h1>
+                🧠 Your Body Analysis Result
+            </h1>
+
+            <p>
+                Here is your personalized Body Force AI analysis.
+            </p>
+
+        </div>
+
+
+        <!-- TOP SECTION -->
+
+        <section class="top-section">
+
+
+            <!-- UPLOADED IMAGE -->
+
+            <div class="card">
+
+                <h2>
+                    📸 Your Uploaded Photo
+                </h2>
+
+
+                <div class="image-container">
+
+                    <img
+                        id="resultImage"
+                        alt="Your uploaded body photo"
+                    >
+
+
+                    <div
+                        class="no-image"
+                        id="noImage"
+                    >
+                        No image available
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BODY SUMMARY -->
+
+            <div class="card">
+
+                <h2>
+                    📊 Body Summary
+                </h2>
+
+
+                <div class="analysis-item">
+
+                    <h3>
+                        BODY TYPE
+                    </h3>
+
+                    <p>
+                        Athletic Build
+                    </p>
+
+                </div>
+
+
+                <div class="analysis-item">
+
+                    <h3>
+                        FITNESS LEVEL
+                    </h3>
+
+                    <p id="fitnessLevel">
+                        Intermediate
+                    </p>
+
+                </div>
+
+
+                <div class="analysis-item">
+
+                    <h3>
+                        PRIMARY FOCUS
+                    </h3>
+
+                    <p id="primaryFocus">
+                        Strength & Muscle Development
+                    </p>
+
+                </div>
+
+
+                <div class="analysis-item">
+
+                    <h3>
+                        USER GOAL
+                    </h3>
+
+                    <p id="userGoal">
+                        Your Goal
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- SCORES -->
+
+        <section class="card scores-card">
+
+            <h2>
+                📈 Body Analysis Scores
+            </h2>
+
+
+            <div class="score-item">
+
+                <div class="score-header">
+
+                    <span>
+                        Muscle Development
+                    </span>
+
+                    <span>
+                        80%
+                    </span>
+
+                </div>
+
+
+                <div class="progress-bg">
+
+                    <div class="progress muscle"></div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="score-item">
+
+                <div class="score-header">
+
+                    <span>
+                        Body Balance
+                    </span>
+
+                    <span>
+                        70%
+                    </span>
+
+                </div>
+
+
+                <div class="progress-bg">
+
+                    <div class="progress balance"></div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="score-item">
+
+                <div class="score-header">
+
+                    <span>
+                        Overall Fitness
+                    </span>
+
+                    <span>
+                        78%
+                    </span>
+
+                </div>
+
+
+                <div class="progress-bg">
+
+                    <div class="progress fitness"></div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="score-item">
+
+                <div class="score-header">
+
+                    <span>
+                        Strength Level
+                    </span>
+
+                    <span>
+                        65%
+                    </span>
+
+                </div>
+
+
+                <div class="progress-bg">
+
+                    <div class="progress strength"></div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- RECOMMENDATIONS -->
+
+        <section class="card">
+
+            <h2>
+                💡 AI Recommendations
+            </h2>
+
+
+            <ul class="recommendation-list">
+
+                <li>
+                    💪 Focus on consistent strength training
+                    3–5 times per week.
+                </li>
+
+                <li>
+                    🥗 Maintain a balanced diet with sufficient
+                    protein and nutrients.
+                </li>
+
+                <li>
+                    🛌 Get enough rest and recovery between
+                    intense workouts.
+                </li>
+
+                <li>
+                    📈 Track your progress regularly and adjust
+                    your workout plan when needed.
+                </li>
+
+            </ul>
+
+        </section>
+
+
+
+        <!-- ACTION BUTTONS -->
+
+        <div class="action-buttons">
+
+            <button
+                class="action-btn"
+                onclick="goWorkout()"
+            >
+                💪 Get My Workout Plan
+            </button>
+
+
+            <button
+                class="action-btn secondary-btn"
+                onclick="goDiet()"
+            >
+                🥗 Get My Diet Plan
+            </button>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script type="module">
+        import "./bf-db.js";
+
+
+
+        /* DISPLAY UPLOADED IMAGE */
+
+        const bodyImage =
+            localStorage.getItem("bodyImage");
+
+
+        if (bodyImage) {
+
+            document.getElementById(
+                "resultImage"
+            ).src = bodyImage;
+
+
+            document.getElementById(
+                "resultImage"
+            ).style.display = "block";
+
+
+            document.getElementById(
+                "noImage"
+            ).style.display = "none";
+
+        }
+
+
+
+        /* DISPLAY USER DATA */
+
+        const userData = await window.BF.getUserProfile();
+
+
+        if (userData) {
+
+            document.getElementById(
+                "fitnessLevel"
+            ).innerText =
+                userData.fitnessLevel;
+
+
+            document.getElementById(
+                "userGoal"
+            ).innerText =
+                userData.goal;
+
+        }
+
+
+
+        /* NAVIGATION */
+
+        function goDashboard() {
+
+            window.location.href =
+                "dashboard.html";
+
+        }
+
+
+        function goWorkout() {
+
+            window.location.href =
+                "workout.html";
+
+        }
+
+
+        function goDiet() {
+
+            window.location.href =
+                "diet.html";
+
+        }
+
+
+    
+        window.goDashboard = goDashboard;
+        window.goWorkout = goWorkout;
+        window.goDiet = goDiet;
+</script>
+
+
+</body>
+
+</html>
