@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profile - Body Forge AI</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #07100c;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+nav {
+            height: 70px;
+            background: #0b1711;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            border-bottom: 1px solid #1e3b29;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #63d644;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid #63d644;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* MAIN CONTAINER */
+
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 240px;
+            background: #0b1711;
+            padding: 30px 15px;
+            border-right: 1px solid #1e3b29;
+        }
+
+        .sidebar h3 {
+            color: #9eaea3;
+            margin-bottom: 20px;
+            padding-left: 15px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 14px 15px;
+            color: #c4d1c7;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #183d23;
+            color: #63d644;
+        }
+
+        /* CONTENT */
+
+        .content {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .content h1 {
+            margin-bottom: 10px;
+        }
+
+        .content p {
+            color: #aab8ae;
+            margin-bottom: 30px;
+        }
+
+        /* PROFILE CARD */
+
+        .profile-card {
+            max-width: 850px;
+            background: #0e1d15;
+            border: 1px solid #1e3b29;
+            border-radius: 15px;
+            padding: 35px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #1e3b29;
+            padding-bottom: 25px;
+        }
+
+        .profile-image {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: #183d23;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+        }
+
+        .profile-header h2 {
+            margin-bottom: 8px;
+        }
+
+        .profile-header p {
+            margin: 0;
+            font-size: 14px;
+        }
+.form-title {
+            color: #63d644;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #c4d1c7;
+        }
+
+        input,
+        select {
+            background: #09140e;
+            border: 1px solid #2a4935;
+            color: white;
+            padding: 13px;
+            border-radius: 7px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #63d644;
+        }
+
+        /* GOALS */
+
+        .goals {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .goal-btn {
+            padding: 12px 18px;
+            background: #09140e;
+            color: white;
+            border: 1px solid #2a4935;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .goal-btn.active {
+            background: #63d644;
+            color: #07100c;
+            border-color: #63d644;
+            font-weight: bold;
+        }
+
+        /* SAVE BUTTON */
+
+        .save-btn {
+            margin-top: 30px;
+            background: #63d644;
+            color: #07100c;
+            border: none;
+            padding: 14px 35px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #7bea5b;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .menu {
+                display: flex;
+                overflow-x: auto;
+                gap: 5px;
+            }
+
+            .menu a {
+                white-space: nowrap;
+            }
+
+            .sidebar h3 {
+                display: none;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav>
+        <div class="logo">
+            💪 BODY FORGE <span>AI</span>
+        </div>
+
+        <button class="logout-btn" onclick="logout()">
+            Logout
+        </button>
+    </nav>
+
+
+    <div class="main-container">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <h3>MENU</h3>
+
+            <div class="menu">
+
+                <a href="#" class="active">
+                    👤 Profile
+                </a>
+
+                <a href="dashboard.html">
+                    📊 Dashboard
+                </a>
+
+                <a href="#">
+                    🧠 Body Analyzer
+                </a>
+
+                <a href="#">
+                    💪 Workout Plan
+                </a>
+
+                <a href="#">
+                    🥗 Diet Plan
+                </a>
+
+                <a href="#">
+                    📈 Progress Tracker
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- CONTENT -->
+
+        <main class="content">
+
+            <h1>Complete Your Profile</h1>
+
+            <p>
+                Tell us about yourself so we can create
+                your personalized fitness plan.
+            </p>
+
+
+            <div class="profile-card">
+
+                <!-- PROFILE HEADER -->
+
+                <div class="profile-header">
+
+                    <div class="profile-image">
+                        👤
+                    </div>
+
+                    <div>
+                        <h2>Your Fitness Profile</h2>
+
+                        <p>
+                            Fill in your details to get personalized
+                            AI recommendations.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <h3 class="form-title">
+                    Personal Information
+                </h3>
+
+
+                <!-- FORM -->
+
+                <form id="profileForm">
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group full-width">
+
+                            <label>Full Name</label>
+
+                            <input
+                                type="text"
+                                id="name"
+                                placeholder="Enter your full name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Age</label>
+
+                            <input
+                                type="number"
+                                id="age"
+                                placeholder="Enter your age"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Gender</label>
+
+                            <select id="gender" required>
+
+                                <option value="">
+                                    Select Gender
+                                </option>
+
+                                <option>Male</option>
+
+                                <option>Female</option>
+
+                                <option>Other</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Height (cm)</label>
+
+                            <input
+                                type="number"
+                                id="height"
+                                placeholder="Example: 175"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Weight (kg)</label>
+
+                            <input
+                                type="number"
+                                id="weight"
+                                placeholder="Example: 70"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group full-width">
+
+                            <label>Fitness Level</label>
+
+                            <select id="fitnessLevel" required>
+
+                                <option value="">
+                                    Select your fitness level
+                                </option>
+
+                                <option>Beginner</option>
+
+                                <option>Intermediate</option>
+
+                                <option>Advanced</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group full-width">
+
+                            <label>Select Your Fitness Goal</label>
+
+
+                            <div class="goals">
+
+                                <button
+                                    type="button"
+                                    class="goal-btn"
+                                    onclick="selectGoal(this, 'Weight Loss')"
+                                >
+                                    Weight Loss
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="goal-btn"
+                                    onclick="selectGoal(this, 'Muscle Gain')"
+                                >
+                                    Muscle Gain
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="goal-btn"
+                                    onclick="selectGoal(this, 'Fat Loss')"
+                                >
+                                    Fat Loss
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="goal-btn"
+                                    onclick="selectGoal(this, 'Strength Gain')"
+                                >
+                                    Strength Gain
+                                </button>
+<button
+                                    type="button"
+                                    class="goal-btn"
+                                    onclick="selectGoal(this, 'Body Transformation')"
+                                >
+                                    Body Transformation
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                    >
+                        Save & Continue →
+                    </button>
+
+                </form>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <script type="module">
+        import "./bf-db.js";
+
+        let selectedGoal = "";
+
+        function selectGoal(button, goal) {
+            document.querySelectorAll(".goal-btn").forEach(btn => btn.classList.remove("active"));
+            button.classList.add("active");
+            selectedGoal = goal;
+        }
+        window.selectGoal = selectGoal;
+
+        async function loadProfile() {
+            try {
+                const user = await window.BF.waitForAuth();
+                const data = await window.BF.getUserProfile();
+                if (!data) return;
+                ["name","age","gender","height","weight","fitnessLevel"].forEach(id => {
+                    if (data[id] != null && document.getElementById(id)) document.getElementById(id).value = data[id];
+                });
+                if (data.goal) {
+                    selectedGoal = data.goal;
+                    document.querySelectorAll(".goal-btn").forEach(btn => {
+                        btn.classList.toggle("active", btn.textContent.trim() === data.goal);
+                    });
+                }
+            } catch (e) { console.warn("Profile load failed", e); }
+        }
+
+        document.getElementById("profileForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            if (!selectedGoal) { alert("Please select your fitness goal!"); return; }
+            const userData = {
+                name: document.getElementById("name").value.trim(),
+                age: document.getElementById("age").value,
+                gender: document.getElementById("gender").value,
+                height: document.getElementById("height").value,
+                weight: document.getElementById("weight").value,
+                fitnessLevel: document.getElementById("fitnessLevel").value,
+                goal: selectedGoal
+            };
+            try {
+                await window.BF.saveUserProfile(userData);
+                alert("Profile saved successfully!");
+                window.location.href = "dashboard.html";
+            } catch (error) {
+                alert(error.message || "Could not save profile.");
+            }
+        });
+
+        function logout() { window.BF.logout(); }
+        window.logout = logout;
+        loadProfile();
+    </script>
+
+</body>
+</html>
