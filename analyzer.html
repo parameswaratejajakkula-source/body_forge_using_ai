@@ -612,7 +612,8 @@
             setTimeout(async function() {
 
 
-                /* Save image and analysis metadata in this browser */
+                /* Save image temporarily in this browser.
+                   The database stores the analysis metadata; large images are not placed in Firestore. */
                 localStorage.setItem("bodyImage", uploadedImage);
                 await window.BF.saveAnalysis({
                     analyzedAt: new Date().toISOString(),
