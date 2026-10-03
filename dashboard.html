@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - Body Forge AI</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #07100c;
+            color: white;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            height: 70px;
+            background: #0b1711;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            border-bottom: 1px solid #1e3b29;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #63d644;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-circle {
+            width: 40px;
+            height: 40px;
+            background: #63d644;
+            color: #07100c;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        /* MAIN */
+
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 240px;
+            background: #0b1711;
+            padding: 30px 15px;
+            border-right: 1px solid #1e3b29;
+        }
+
+        .sidebar h3 {
+            color: #8e9c92;
+            margin-bottom: 20px;
+            padding-left: 15px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 14px 15px;
+            color: #c4d1c7;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: 0.3s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #183d23;
+            color: #63d644;
+        }
+
+        /* CONTENT */
+
+        .content {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .welcome h1 {
+            margin-bottom: 10px;
+        }
+
+        .welcome p {
+            color: #aab8ae;
+            margin-bottom: 35px;
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: #0e1d15;
+            border: 1px solid #1e3b29;
+            padding: 22px;
+            border-radius: 12px;
+        }
+
+        .stat-card .icon {
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card h3 {
+            color: #9eaea3;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card h2 {
+            color: #63d644;
+        }
+
+        /* DASHBOARD GRID */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: #0e1d15;
+            border: 1px solid #1e3b29;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        /* GOAL */
+
+        .goal-name {
+            color: #63d644;
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #07100c;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress {
+            width: 35%;
+            height: 100%;
+            background: #63d644;
+            border-radius: 20px;
+        }
+
+        /* QUICK ACTIONS */
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .action-card {
+            padding: 20px;
+            background: #09140e;
+            border: 1px solid #2a4935;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            border-color: #63d644;
+        }
+
+        .action-card .action-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .action-card h3 {
+            color: #63d644;
+            margin-bottom: 7px;
+        }
+
+        .action-card p {
+            font-size: 13px;
+            color: #aab8ae;
+        }
+
+        /* RIGHT CARD */
+
+        .profile-summary p {
+            margin: 15px 0;
+            color: #aab8ae;
+        }
+
+        .profile-summary span {
+            color: white;
+            font-weight: bold;
+        }
+
+        .edit-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: transparent;
+            color: #63d644;
+            border: 1px solid #63d644;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .edit-btn:hover {
+            background: #63d644;
+            color: #07100c;
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 1000px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 700px) {
+
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .sidebar h3 {
+                display: none;
+            }
+
+            .menu {
+                display: flex;
+                overflow-x: auto;
+                gap: 5px;
+            }
+
+            .menu a {
+                white-space: nowrap;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+            💪 BODY FORGE <span>AI</span>
+        </div>
+
+
+        <div class="user-info">
+
+            <span id="navUserName">
+                User
+            </span>
+
+            <div class="user-circle" id="userInitial">
+                U
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <div class="main-container">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <h3>MENU</h3>
+
+            <div class="menu">
+
+                <a href="profile.html">
+                    👤 Profile
+                </a>
+
+                <a href="dashboard.html" class="active">
+                    📊 Dashboard
+                </a>
+
+                <a href="analyzer.html">
+                    🧠 Body Analyzer
+                </a>
+
+                <a href="workout.html">
+    💪 Workout Plan
+</a>
+
+<a href="diet.html">
+    🥗 Diet Plan
+</a>
+
+<a href="progress.html">
+    📈 Progress Tracker
+</a>
+
+<a href="ai-chat.html">
+    🤖 AI Assistant
+</a>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="content">
+
+
+            <!-- WELCOME -->
+
+            <div class="welcome">
+
+                <h1>
+                    Welcome back, <span id="welcomeName">User</span>! 👋
+                </h1>
+
+                <p>
+                    Let's continue your fitness transformation today.
+                </p>
+
+            </div>
+
+
+
+            <!-- STATS -->
+
+            <section class="stats">
+
+
+                <div class="stat-card">
+
+                    <div class="icon">
+                        🎯
+                    </div>
+
+                    <h3>YOUR GOAL</h3>
+
+                    <h2 id="userGoal">
+                        Not Set
+                    </h2>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="icon">
+                        ⚖️
+                    </div>
+
+                    <h3>CURRENT WEIGHT</h3>
+
+                    <h2>
+                        <span id="userWeight">0</span> kg
+                    </h2>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="icon">
+                        📏
+                    </div>
+
+                    <h3>HEIGHT</h3>
+
+                    <h2>
+                        <span id="userHeight">0</span> cm
+                    </h2>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="icon">
+                        🏋️
+                    </div>
+
+                    <h3>FITNESS LEVEL</h3>
+
+                    <h2 id="userLevel">
+                        Beginner
+                    </h2>
+
+                </div>
+
+
+            </section>
+
+
+
+            <div class="dashboard-grid">
+
+
+                <!-- LEFT SIDE -->
+
+                <div>
+
+
+                    <!-- GOAL CARD -->
+
+                    <div class="card">
+
+                        <h2>
+                            🎯 Your Fitness Goal
+                        </h2>
+
+                        <div class="goal-name" id="mainGoal">
+                            Set Your Goal
+                        </div>
+
+                        <p>
+                            Complete your daily workouts and follow
+                            your personalized plan to achieve your goal.
+                        </p>
+
+                        <div class="progress-bar">
+
+                            <div class="progress"></div>
+
+                        </div>
+
+                        <p>
+                            <strong>35%</strong> Profile Progress
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- QUICK ACTIONS -->
+
+                    <div class="card" style="margin-top: 25px;">
+
+                        <h2>
+                            ⚡ Quick Actions
+                        </h2>
+
+
+                        <div class="actions">
+
+
+                            <div
+                                class="action-card"
+                                onclick="goToAnalyzer()"
+                            >
+
+                                <div class="action-icon">
+                                    🧠
+                                </div>
+
+                                <h3>
+                                    Body Analyzer
+                                </h3>
+
+                                <p>
+                                    Analyze your body and get insights.
+                                </p>
+
+                            </div>
+
+
+
+                            <div class="action-card"
+     onclick="window.location.href='workout.html'">
+                                <div class="action-icon">
+                                    💪
+                                </div>
+
+                                <h3>
+                                    Workout Plan
+                                </h3>
+
+                                <p>
+                                    Get your personalized workout.
+                                </p>
+
+                            </div>
+
+
+
+<div class="action-card"
+     onclick="window.location.href='diet.html'">
+                                <div class="action-icon">
+                                    🥗
+                                </div>
+
+                                <h3>
+                                    Diet Plan
+                                </h3>
+
+                                <p>
+                                    Get your AI nutrition plan.
+                                </p>
+
+                            </div>
+
+<div class="action-card"
+     onclick="window.location.href='progress.html'">
+                                <div class="action-icon">
+                                    📈
+                                </div>
+
+                                <h3>
+                                    Progress Tracker
+                                </h3>
+
+                                <p>
+                                    Track your transformation.
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- RIGHT SIDE -->
+
+                <div class="card profile-summary">
+
+                    <h2>
+                        👤 Profile Summary
+                    </h2>
+
+
+                    <p>
+                        Name:
+                        <span id="summaryName">-</span>
+                    </p>
+
+
+                    <p>
+                        Age:
+                        <span id="summaryAge">-</span>
+                    </p>
+
+
+                    <p>
+                        Gender:
+                        <span id="summaryGender">-</span>
+                    </p>
+
+
+                    <p>
+                        Fitness Level:
+                        <span id="summaryLevel">-</span>
+                    </p>
+
+
+                    <p>
+                        Goal:
+                        <span id="summaryGoal">-</span>
+                    </p>
+
+
+                    <button
+                        class="edit-btn"
+                        onclick="editProfile()"
+                    >
+                        Edit Profile
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script type="module">
+        import "./bf-db.js";
+
+
+
+        /* GET USER DATA */
+
+        let userData = await window.BF.getUserProfile();
+
+
+        /* IF USER DATA EXISTS */
+
+        if (userData) {
+
+
+            document.getElementById(
+                "navUserName"
+            ).innerText = userData.name;
+
+
+            document.getElementById(
+                "welcomeName"
+            ).innerText = userData.name;
+
+
+            document.getElementById(
+                "userInitial"
+            ).innerText =
+                userData.name.charAt(0).toUpperCase();
+
+
+            document.getElementById(
+                "userGoal"
+            ).innerText = userData.goal;
+
+
+            document.getElementById(
+                "mainGoal"
+            ).innerText = userData.goal;
+
+
+            document.getElementById(
+                "userWeight"
+            ).innerText = userData.weight;
+
+
+            document.getElementById(
+                "userHeight"
+            ).innerText = userData.height;
+
+
+            document.getElementById(
+                "userLevel"
+            ).innerText = userData.fitnessLevel;
+
+
+            document.getElementById(
+                "summaryName"
+            ).innerText = userData.name;
+
+
+            document.getElementById(
+                "summaryAge"
+            ).innerText = userData.age;
+
+
+            document.getElementById(
+                "summaryGender"
+            ).innerText = userData.gender;
+
+
+            document.getElementById(
+                "summaryLevel"
+            ).innerText =
+                userData.fitnessLevel;
+
+
+            document.getElementById(
+                "summaryGoal"
+            ).innerText = userData.goal;
+
+        }
+
+
+        /* EDIT PROFILE */
+
+        function editProfile() {
+
+            window.location.href = "profile.html";
+
+        }
+
+
+        /* BODY ANALYZER */
+
+        function goToAnalyzer() {
+
+            window.location.href = "analyzer.html";
+
+        }
+
+
+    
+        window.editProfile = editProfile;
+        window.goToAnalyzer = goToAnalyzer;
+</script>
+
+
+</body>
+
+</html>
