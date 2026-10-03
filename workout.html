@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Workout Plan - Body Force AI</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #07100c;
+            color: white;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            height: 70px;
+            background: #0b1711;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            border-bottom: 1px solid #1e3b29;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #63d644;
+        }
+
+        .back-btn {
+            background: transparent;
+            color: white;
+            border: 1px solid #63d644;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: #63d644;
+            color: #07100c;
+        }
+
+        /* MAIN CONTENT */
+
+        .content {
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .page-title h1 {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .page-title p {
+            color: #aab8ae;
+        }
+
+        /* GOAL BOX */
+
+        .goal-box {
+            background: #0e1d15;
+            border: 1px solid #1e3b29;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .goal-box h3 {
+            color: #9eaea3;
+            margin-bottom: 10px;
+        }
+
+        #goalName {
+            color: #63d644;
+            font-size: 28px;
+        }
+
+        /* WORKOUT GRID */
+
+        .workout-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;k
+        }
+
+        .workout-card {
+            background: #0e1d15;
+            border: 1px solid #1e3b29;
+            border-radius: 12px;
+            padding: 25px;
+            transition: 0.3s;
+        }
+
+        .workout-card:hover {
+            transform: translateY(-5px);
+            border-color: #63d644;
+        }
+
+        .day {
+            color: #63d644;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .workout-card h2 {
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .exercise-list {
+            list-style: none;
+        }
+
+        .exercise-list li {
+            background: #09140e;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 7px;
+            color: #c4d1c7;
+            border-left: 3px solid #63d644;
+        }
+
+        .rest-card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .rest-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+
+        /* EXERCISE DEMO */
+
+        .exercise-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .play-demo-btn {
+            flex-shrink: 0;
+            background: transparent;
+            color: #63d644;
+            border: 1px solid #63d644;
+            padding: 7px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .play-demo-btn:hover {
+            background: #63d644;
+            color: #07100c;
+        }
+
+        .video-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.85);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .video-modal-content {
+            width: min(850px, 95vw);
+            background: #0e1d15;
+            border: 1px solid #63d644;
+            border-radius: 14px;
+            padding: 15px;
+            position: relative;
+        }
+
+        .video-modal-title {
+            color: #63d644;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 5px 45px 15px 5px;
+        }
+
+        .video-frame {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: 0;
+            border-radius: 10px;
+            display: block;
+            background: #050a07;
+        }
+
+        .close-video {
+            position: absolute;
+            right: 15px;
+            top: 12px;
+            background: transparent;
+            color: white;
+            border: 1px solid #63d644;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .close-video:hover {
+            background: #63d644;
+            color: #07100c;
+        }
+
+        /* INFO BOX */
+
+        .info-box {
+            margin-top: 30px;
+            background: #0e1d15;
+            border: 1px solid #1e3b29;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .info-box h2 {
+            color: #63d644;
+            margin-bottom: 15px;
+        }
+
+        .info-box ul {
+            padding-left: 20px;
+            color: #c4d1c7;
+            line-height: 2;
+        }
+
+        /* BUTTONS */
+
+        .bottom-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .primary-btn {
+            background: #63d644;
+            color: #07100c;
+            border: none;
+        }
+
+        .secondary-btn {
+            background: transparent;
+            color: #63d644;
+            border: 1px solid #63d644;
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 700px) {
+
+            .workout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bottom-buttons {
+                flex-direction: column;
+            }
+
+            .page-title h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+            💪 BODY FORCE <span>AI</span>
+        </div>
+
+        <button
+            class="back-btn"
+            onclick="goBack()"
+        >
+            ← Results
+        </button>
+
+    </nav>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="content">
+
+        <div class="page-title">
+
+            <h1>💪 Your Personalized Workout Plan</h1>
+
+            <p>
+                A weekly workout plan based on your selected fitness goal.
+            </p>
+
+        </div>
+
+
+        <!-- USER GOAL -->
+
+        <div class="goal-box">
+
+            <h3>YOUR FITNESS GOAL</h3>
+
+            <h2 id="goalName">
+                Loading...
+            </h2>
+
+        </div>
+
+
+        <!-- WORKOUT PLAN -->
+
+        <div
+            class="workout-grid"
+            id="workoutPlan"
+        >
+        </div>
+
+
+        <!-- TIPS -->
+
+        <div class="info-box">
+
+            <h2>💡 Workout Tips</h2>
+
+            <ul>
+                <li>Always warm up for 5–10 minutes before exercising.</li>
+                <li>Focus on correct form instead of lifting heavier weights.</li>
+                <li>Rest between sets when needed.</li>
+                <li>Drink enough water throughout the day.</li>
+                <li>Increase intensity gradually as you progress.</li>
+            </ul>
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="bottom-buttons">
+
+            <button
+                class="btn secondary-btn"
+                onclick="goDashboard()"
+            >
+                ← Back to Dashboard
+            </button>
+
+            <button
+                class="btn primary-btn"
+                onclick="goDiet()"
+            >
+                🥗 Get My Diet Plan
+            </button>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- EXERCISE VIDEO MODAL -->
+    <div class="video-modal" id="videoModal" onclick="closeVideo(event)">
+        <div class="video-modal-content">
+            <button class="close-video" onclick="closeVideo()">×</button>
+            <div class="video-modal-title" id="videoTitle">Exercise Demo</div>
+            <iframe
+                class="video-frame"
+                id="videoFrame"
+                src=""
+                title="Exercise Demo"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <script type="module">
+        import "./bf-db.js";
+
+
+        /* GET USER DATA */
+
+        const userData = await window.BF.getUserProfile();
+
+
+        let goal = "Body Transformation";
+
+
+        if (userData && userData.goal) {
+
+            goal = userData.goal;
+
+        }
+
+
+        document.getElementById(
+            "goalName"
+        ).innerText = goal;
+
+
+        const workoutPlan =
+            document.getElementById(
+                "workoutPlan"
+            );
+
+
+        /* WORKOUT DATA */
+
+        const plans = {
+
+
+            "Muscle Gain": [
+
+                {
+                    day: "MONDAY",
+                    title: "Chest & Triceps",
+                    exercises: [
+                        "Bench Press — 4 Sets × 10 Reps",
+                        "Incline Dumbbell Press — 3 × 12",
+                        "Chest Fly — 3 × 12",
+                        "Tricep Pushdown — 3 × 12"
+                    ]
+                },
+
+                {
+                    day: "TUESDAY",
+                    title: "Back & Biceps",
+                    exercises: [
+                        "Lat Pulldown — 4 × 10",
+                        "Barbell Row — 3 × 10",
+                        "Seated Cable Row — 3 × 12",
+                        "Bicep Curl — 3 × 12"
+                    ]
+                },
+
+                {
+                    day: "WEDNESDAY",
+                    title: "Rest & Recovery",
+                    rest: true
+                },
+
+                {
+                    day: "THURSDAY",
+                    title: "Leg Day",
+                    exercises: [
+                        "Squats — 4 × 10",
+                        "Leg Press — 3 × 12",
+                        "Lunges — 3 × 12",
+                        "Calf Raises — 4 × 15"
+                    ]
+                },
+
+                {
+                    day: "FRIDAY",
+                    title: "Shoulders & Abs",
+                    exercises: [
+                        "Shoulder Press — 4 × 10",
+                        "Lateral Raises — 3 × 12",
+                        "Plank — 3 × 45 Seconds",
+                        "Crunches — 3 × 20"
+                    ]
+                }
+
+            ],
+
+
+            "Weight Loss": [
+
+                {
+                    day: "MONDAY",
+                    title: "Full Body Cardio",
+                    exercises: [
+                        "Jumping Jacks — 3 × 30 Seconds",
+                        "Bodyweight Squats — 3 × 15",
+                        "Push-ups — 3 × 10",
+                        "Brisk Walking — 20 Minutes"
+                    ]
+                },
+
+                {
+                    day: "TUESDAY",
+                    title: "Cardio & Core",
+                    exercises: [
+                        "Jogging — 20 Minutes",
+                        "Mountain Climbers — 3 × 20",
+                        "Plank — 3 × 30 Seconds",
+                        "Bicycle Crunches — 3 × 15"
+                    ]
+                },
+
+                {
+                    day: "WEDNESDAY",
+                    title: "Rest & Light Walking",
+                    rest: true
+                },
+
+                {
+                    day: "THURSDAY",
+                    title: "Strength & Cardio",
+                    exercises: [
+                        "Squats — 3 × 15",
+                        "Push-ups — 3 × 12",
+                        "Lunges — 3 × 12",
+                        "Walking — 30 Minutes"
+                    ]
+                },
+
+                {
+                    day: "FRIDAY",
+                    title: "HIIT Workout",
+                    exercises: [
+                        "High Knees — 30 Seconds",
+                        "Jumping Jacks — 30 Seconds",
+                        "Burpees — 10 Reps",
+                        "Repeat for 3 Rounds"
+                    ]
+                }
+
+            ],
+
+
+            "Fat Loss": [
+
+                {
+                    day: "MONDAY",
+                    title: "HIIT Workout",
+                    exercises: [
+                        "High Knees — 30 Seconds",
+                        "Jumping Jacks — 30 Seconds",
+                        "Mountain Climbers — 20 Reps",
+                        "Rest — 60 Seconds",
+                        "Repeat for 4 Rounds"
+                    ]
+                },
+
+                {
+                    day: "TUESDAY",
+                    title: "Upper Body",
+                    exercises: [
+                        "Push-ups — 4 × 12",
+                        "Dumbbell Press — 3 × 12",
+                        "Rows — 3 × 12",
+                        "Tricep Dips — 3 × 10"
+                    ]
+                },
+
+                {
+                    day: "WEDNESDAY",
+                    title: "Active Recovery",
+                    rest: true
+                },
+
+                {
+                    day: "THURSDAY",
+                    title: "Lower Body",
+                    exercises: [
+                        "Squats — 4 × 15",
+                        "Lunges — 3 × 12",
+                        "Leg Raises — 3 × 15",
+                        "Calf Raises — 4 × 15"
+                    ]
+                },
+
+                {
+                    day: "FRIDAY",
+                    title: "Cardio & Core",
+                    exercises: [
+                        "Jogging — 20 Minutes",
+                        "Plank — 3 × 45 Seconds",
+                        "Crunches — 3 × 20",
+                        "Leg Raises — 3 × 15"
+                    ]
+                }
+
+            ],
+
+
+            "Strength Gain": [
+
+                {
+                    day: "MONDAY",
+                    title: "Upper Body Strength",
+                    exercises: [
+                        "Bench Press — 5 × 5",
+                        "Barbell Row — 5 × 5",
+                        "Overhead Press — 4 × 6",
+                        "Pull-ups — 3 × 8"
+                    ]
+                },
+
+                {
+                    day: "TUESDAY",
+                    title: "Lower Body Strength",
+                    exercises: [
+                        "Squats — 5 × 5",
+                        "Deadlifts — 4 × 5",
+                        "Leg Press — 4 × 8",
+                        "Calf Raises — 4 × 12"
+                    ]
+                },
+
+                {
+                    day: "WEDNESDAY",
+                    title: "Rest & Recovery",
+                    rest: true
+                },
+
+                {
+                    day: "THURSDAY",
+                    title: "Push Strength",
+                    exercises: [
+                        "Bench Press — 5 × 5",
+                        "Shoulder Press — 4 × 6",
+                        "Dips — 3 × 8",
+                        "Push-ups — 3 × 15"
+                    ]
+                },
+
+                {
+                    day: "FRIDAY",
+                    title: "Pull Strength",
+                    exercises: [
+                        "Deadlift — 5 × 5",
+                        "Barbell Row — 4 × 6",
+                        "Lat Pulldown — 3 × 10",
+                        "Bicep Curl — 3 × 10"
+                    ]
+                }
+
+            ],
+
+
+            "Body Transformation": [
+
+                {
+                    day: "MONDAY",
+                    title: "Upper Body",
+                    exercises: [
+                        "Push-ups — 3 × 12",
+                        "Dumbbell Press — 3 × 12",
+                        "Lat Pulldown — 3 × 12",
+                        "Bicep Curl — 3 × 12"
+                    ]
+                },
+
+                {
+                    day: "TUESDAY",
+                    title: "Lower Body",
+                    exercises: [
+                        "Squats — 4 × 12",
+                        "Lunges — 3 × 12",
+                        "Leg Press — 3 × 12",
+                        "Calf Raises — 3 × 15"
+                    ]
+                },
+
+                {
+                    day: "WEDNESDAY",
+                    title: "Rest & Recovery",
+                    rest: true
+                },
+
+                {
+                    day: "THURSDAY",
+                    title: "Full Body Workout",
+                    exercises: [
+                        "Squats — 3 × 12",
+                        "Push-ups — 3 × 12",
+                        "Rows — 3 × 12",
+                        "Plank — 3 × 45 Seconds"
+                    ]
+                },
+
+                {
+                    day: "FRIDAY",
+                    title: "Cardio & Core",
+                    exercises: [
+                        "Jogging — 20 Minutes",
+                        "Crunches — 3 × 20",
+                        "Leg Raises — 3 × 15",
+                        "Plank — 3 × 45 Seconds"
+                    ]
+                }
+
+            ]
+
+        };
+
+
+
+        /* EXERCISE DEMO VIDEO LINKS */
+
+        const videoLinks = {
+            "Bench Press": "https://www.youtube.com/embed/rT7rgXQtDcI",
+            "Incline Dumbbell Press": "https://www.youtube.com/embed/8iPEnn-ltC8",
+            "Chest Fly": "https://www.youtube.com/embed/eozdVDA78K0",
+            "Tricep Pushdown": "https://www.youtube.com/embed/2-LAMcpzODU",
+            "Lat Pulldown": "https://www.youtube.com/embed/CAwf7n6Luuc",
+            "Barbell Row": "https://www.youtube.com/embed/9efgcAjQe7E",
+            "Seated Cable Row": "https://www.youtube.com/embed/GZbfZ033f74",
+            "Bicep Curl": "https://www.youtube.com/embed/ykJmrZ5v0Oo",
+            "Squats": "https://www.youtube.com/embed/aclHkVaku9U",
+            "Leg Press": "https://www.youtube.com/embed/IZxyjW7MPJQ",
+            "Lunges": "https://www.youtube.com/embed/QOVaHwm-Q6U",
+            "Calf Raises": "https://www.youtube.com/embed/-M4-G8p8fmc",
+            "Shoulder Press": "https://www.youtube.com/embed/qEwKCR5JCog",
+            "Lateral Raises": "https://www.youtube.com/embed/3VcKaXpzqRo",
+            "Plank": "https://www.youtube.com/embed/pSHjTRCQxIw",
+            "Crunches": "https://www.youtube.com/embed/Xyd_fa5zoEU",
+            "Jumping Jacks": "https://www.youtube.com/embed/c4DAnQ6DtF8",
+            "Bodyweight Squats": "https://www.youtube.com/embed/aclHkVaku9U",
+            "Push-ups": "https://www.youtube.com/embed/IODxDxX7oi4",
+            "Brisk Walking": "https://www.youtube.com/embed/nZ1iV6xYh0Y",
+            "Jogging": "https://www.youtube.com/embed/v2rB0z5fZ8M",
+            "Mountain Climbers": "https://www.youtube.com/embed/nmwgirgXLYM",
+            "Bicycle Crunches": "https://www.youtube.com/embed/9FGilxCbdz8",
+            "Burpees": "https://www.youtube.com/embed/dZgVxmf6jkA",
+            "High Knees": "https://www.youtube.com/embed/8opcQdC-V-U",
+            "Dumbbell Press": "https://www.youtube.com/embed/YQ2s_Y7g5Qk",
+            "Rows": "https://www.youtube.com/embed/roCP6w8FZ8Y",
+            "Tricep Dips": "https://www.youtube.com/embed/0326dy_-CzM",
+            "Dips": "https://www.youtube.com/embed/2z8JmcrW-As",
+            "Pull-ups": "https://www.youtube.com/embed/eGo4IYlbE5g",
+            "Deadlifts": "https://www.youtube.com/embed/op9kVnSso6Q",
+            "Overhead Press": "https://www.youtube.com/embed/2yjwXTZQDDI",
+            "Leg Raises": "https://www.youtube.com/embed/JB2oyawG9KI",
+            "Walking": "https://www.youtube.com/embed/nZ1iV6xYh0Y"
+        };
+
+        /* GET PLAN */
+
+        const selectedPlan =
+            plans[goal] ||
+            plans["Body Transformation"];
+
+        await window.BF.savePlan("workout", { goal, days: selectedPlan });
+
+
+        /* DISPLAY PLAN */
+
+        selectedPlan.forEach(function(dayPlan) {
+
+
+            const card =
+                document.createElement("div");
+
+
+            card.classList.add("workout-card");
+
+
+            if (dayPlan.rest) {
+
+                card.classList.add("rest-card");
+
+
+                card.innerHTML = `
+
+                    <div class="rest-icon">
+                        🛌
+                    </div>
+
+                    <div class="day">
+                        ${dayPlan.day}
+                    </div>
+
+                    <h2>
+                        ${dayPlan.title}
+                    </h2>
+
+                    <p>
+                        Give your body time to recover
+                        and come back stronger!
+                    </p>
+
+                `;
+
+            } else {
+
+
+                let exercisesHTML = "";
+
+
+                dayPlan.exercises.forEach(
+                    function(exercise) {
+
+                        const exerciseName = exercise.split(" — ")[0];
+                        const videoURL = videoLinks[exerciseName];
+
+                        exercisesHTML += `
+                            <li>
+                                <div class="exercise-row">
+                                    <span>${exercise}</span>
+                                    ${
+                                        videoURL
+                                        ? `<button class="play-demo-btn" onclick="openVideo('${videoURL}', '${exerciseName}')">▶ Play Demo</button>`
+                                        : ""
+                                    }
+                                </div>
+                            </li>
+                        `;
+
+                    }
+                );
+
+
+                card.innerHTML = `
+
+                    <div class="day">
+                        ${dayPlan.day}
+                    </div>
+
+                    <h2>
+                        ${dayPlan.title}
+                    </h2>
+
+                    <ul class="exercise-list">
+                        ${exercisesHTML}
+                    </ul>
+
+                `;
+
+            }
+
+
+            workoutPlan.appendChild(card);
+
+
+        });
+
+
+
+        /* VIDEO MODAL FUNCTIONS */
+
+        function openVideo(videoURL, exerciseName) {
+            document.getElementById("videoTitle").innerText =
+                "▶ " + exerciseName + " - Demo";
+            document.getElementById("videoFrame").src =
+                videoURL + "?autoplay=1";
+            document.getElementById("videoModal").style.display = "flex";
+        }
+
+        function closeVideo(event) {
+            const modal = document.getElementById("videoModal");
+
+            if (!event || event.target === modal || event.target.classList.contains("close-video")) {
+                document.getElementById("videoFrame").src = "";
+                modal.style.display = "none";
+            }
+        }
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") closeVideo();
+        });
+
+        /* NAVIGATION */
+
+        function goBack() {
+
+            window.location.href = "result.html";
+
+        }
+
+
+        function goDashboard() {
+
+            window.location.href = "dashboard.html";
+
+        }
+
+
+        function goDiet() {
+
+            window.location.href = "diet.html";
+
+        }
+
+    
+        window.openVideo = openVideo;
+        window.closeVideo = closeVideo;
+        window.goBack = goBack;
+        window.goDashboard = goDashboard;
+        window.goDiet = goDiet;
+</script>
+
+</body>
+
+</html>
